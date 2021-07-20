@@ -137,6 +137,7 @@ if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
     elif extension.upper() == 'XLSX':
         df = pd.read_excel(uploaded_file)
+    df = df.apply(lambda x: x.fillna(0) if x.dtype.kind in 'biufc' else x.fillna('Unknown'))
     churn = st.selectbox('Which Column Shows customer exit status', df.columns)
     options = st.multiselect(
         'Select Columns to drop(Columns like phone number,customer id do not affect customer churn)',
@@ -144,7 +145,9 @@ if uploaded_file is not None:
 
     st.sidebar.title("Custoplus")
     page = st.sidebar.radio("See what we have for you", ('Home', 'Graphy', 'Predict'))
+    st.sidebar.success("Make sure the Dataset has more of integer values and the churn or exit status column must have values like yes / no or 0 / 1 for smooth functioning of the web app")
     st.sidebar.info("Custoplus is designed to help analyze your customer database and understand why they are leaving or staying.Upload your database and choose which column represents churn. Our automated engine will modify the database and help you understand.First select the correlation and then go to the graph for visualization.Atlast give an unknown data and measure the probability whether the person willl stay or not")
+    
     if (page == 'Home'):
          homelayer1()
     df1 = df.replace({'Yes': 1, 'No': 0,'yes': 1, 'no': 0})
