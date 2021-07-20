@@ -9,6 +9,7 @@ from sklearn import metrics
 
 
 
+
 from footerframe import footer
 image = Image.open('homeimage.png')
 st.set_page_config(
@@ -40,9 +41,10 @@ def plot(churn):
         df2[churn].replace({'Yes': 1, 'No': 0}, inplace=True)
 
     if(len(list_num) != 0):
-        plt_col = st.selectbox('Histograms for your number data values', list_num)
+        st.subheader('Histograms for your number data values')
+        plt_col = st.selectbox('Histograms', list_num)
         fig, ax = plt.subplots()
-        ax.hist([df2[df2[churn] == 0][plt_col], df2[df2[churn] == 1][plt_col]], color=['yellow', 'red'],
+        ax.hist([df2[df2[churn] == 0][plt_col], df2[df2[churn] == 1][plt_col]], color=['lightgreen', 'red'],
                 label=['Customers who stay', 'Customers who leave'])
         ax.set_title(plt_col + ' Vs ' + churn)
         plt.xlabel(plt_col)
@@ -50,7 +52,8 @@ def plot(churn):
         st.pyplot(fig)
 
     if(len(list_str) != 0):
-        plt_pie = st.selectbox('Pie chart for the Text  Columns', list_str)
+        st.subheader('Pie chart for the Text  Columns')
+        plt_pie = st.selectbox('Lets Pie', list_str)
         fig1, ax1 = plt.subplots()
         ax1.pie(df2[df2[churn] == 1][plt_pie].value_counts().values,
                 labels=df2[df2[churn] == 1][plt_pie].value_counts().index)
@@ -80,7 +83,11 @@ def homelayer2():
             st.info(
                 "For example + 0.19 means 19% of direct relationship of this parameter with our output(churn or exit here) -0,23 means 23 % of inverse relationship")
     if(st.checkbox("See the data statistically")):
-        st.write(df1.describe())
+        if(st.checkbox("Those who leave")):
+            st.write(df1[df1[churn]==1].describe())
+        if(st.checkbox("Those who Stay")):
+            st.write(df1[df1[churn]==0].describe())
+        st.info("See the maximum age of your customers or maybe the mean or average money they invest in buying your products.You can also watch the tenures and how it differs..")
 
 
 def predict(df3, opt):
@@ -103,7 +110,7 @@ def predict(df3, opt):
     X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size = 0.25, random_state = 42)
 
-    knn = KNeighborsClassifier(n_neighbors=7)
+    knn = KNeighborsClassifier(n_neighbors=10)
     knn.fit(X_train, y_train)
 
     # log = LogisticRegression()
@@ -137,11 +144,10 @@ if uploaded_file is not None:
 
     st.sidebar.title("Custoplus")
     page = st.sidebar.radio("See what we have for you", ('Home', 'Graphy', 'Predict'))
-    st.sidebar.info(
-        "Custoplus is designed to help analyze your customer database and understand why they are leaving or staying.Upload your database and choose which column represents churn. Our automated engine will modify the database and help you understand.First select the correlation and then go to the graph for visualization.Atlast give an unknown data and measure the probability whether the person willl stay or not")
+    st.sidebar.info("Custoplus is designed to help analyze your customer database and understand why they are leaving or staying.Upload your database and choose which column represents churn. Our automated engine will modify the database and help you understand.First select the correlation and then go to the graph for visualization.Atlast give an unknown data and measure the probability whether the person willl stay or not")
     if (page == 'Home'):
          homelayer1()
-    df1 = df.replace({'Yes': 1, 'No': 0})
+    df1 = df.replace({'Yes': 1, 'No': 0,'yes': 1, 'no': 0})
     if (page == 'Home'):
         homelayer2()
 
@@ -149,3 +155,6 @@ if uploaded_file is not None:
         plot(churn)
     if (page == 'Predict'):
         predict(df1,options)
+else:
+    #st.info("Reach me @ [LinkedIn](https://www.kaggle.com/blastchar/telco-customer-churn?select=WA_Fn-UseC_-Telco-Customer-Churn.csv)")
+    st.warning("Don't have a dataset?No worries🥰Test the app after downloading the famous churn datasets from [Kaggle](https://www.linkedin.com/in/souvik-ghosh-3b8b411b2/)")

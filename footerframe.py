@@ -71,7 +71,7 @@ def footer():
         image('https://avatars3.githubusercontent.com/u/45109972?s=400&v=4',
               width=px(25), height=px(25)),
         " with ❤️ by ",
-        link("https://www.linkedin.com/in/souvik-ghosh-3b8b411b2/", "@Souvik"),
+        link("https://www.linkedin.com/in/souvik-ghosh-3b8b411b2/", "Souvik"),
         "||",
         " ✉ @ souvikg544@gmail.com",
         "||",
