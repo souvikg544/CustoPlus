@@ -6,10 +6,6 @@ from PIL import Image
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
-
-
-
-
 from footerframe import footer
 image = Image.open('homeimage.png')
 st.set_page_config(
@@ -146,7 +142,7 @@ if uploaded_file is not None:
     st.sidebar.title("Custoplus")
     page = st.sidebar.radio("See what we have for you", ('Home', 'Graphy', 'Predict'))
     st.sidebar.success("Make sure the Dataset has more of integer values and the churn or exit status column must have values like yes / no or 0 / 1 for smooth functioning of the web app")
-    st.sidebar.info("Custoplus is designed to help analyze your customer database and understand why they are leaving or staying.Upload your database and choose which column represents churn. Our automated engine will modify the database and help you understand.First select the correlation and then go to the graph for visualization.Atlast give an unknown data and measure the probability whether the person willl stay or not")
+    st.sidebar.info("Custoplus is designed to help analyze your customer database and understand why they are leaving or staying.Upload your database and choose which column represents churn.Our automated engine will modify the database and help you understand.First select the correlation and then go to the graph for visualization.Atlast give an unknown data and measure whether the person willl stay or not")
     
     if (page == 'Home'):
          homelayer1()
@@ -160,4 +156,4 @@ if uploaded_file is not None:
         predict(df1,options)
 else:
     #st.info("Reach me @ [LinkedIn](https://www.kaggle.com/blastchar/telco-customer-churn?select=WA_Fn-UseC_-Telco-Customer-Churn.csv)")
-    st.warning("Don't have a dataset?No worries🥰Test the app after downloading the famous churn datasets from [Kaggle](https://www.linkedin.com/in/souvik-ghosh-3b8b411b2/)")
+    st.warning("Don't have a dataset?No worries🥰Test the app after downloading the famous churn datasets from [Kaggle](https://www.kaggle.com/blastchar/telco-customer-churn?select=WA_Fn-UseC_-Telco-Customer-Churn.csv)")
