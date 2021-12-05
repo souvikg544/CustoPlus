@@ -16,7 +16,7 @@ def layout(*args):
 
     style = """
     <style>
-      #MainMenu {visibility: hidden;}
+       # MainMenu {visibility: hidden;}
       footer {visibility: hidden;}
      .stApp { bottom: 125px; }
     </style>
