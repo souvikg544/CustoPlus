@@ -19,7 +19,7 @@ st.set_page_config(
 
 st.image(image)
 st.title('CustoPlus')
-st.subheader('We help make your customers stay😉')
+st.subheader('We make your customers stay😉')
 footer()
 uploaded_file = st.file_uploader("Upload Your Customer Data", type=['csv', 'xlsx'])
 
@@ -91,14 +91,15 @@ def plot(churn):
 
 def homelayer1():   
     df.drop(options, axis='columns', inplace=True)
-    if st.checkbox('Show  sample data'):
+    st.subheader("See a sample of your Dataset")
+    if st.checkbox('Show Data'):
         if (df.shape[0] > 20):
             st.dataframe(df.sample(10))
         else:
             st.dataframe(df.sample())
             st.error("Insufficient data")
     st.subheader("Don't understand Custoplus ?")
-    st.markdown('#### Well watch the below video to get started ! ')
+    st.markdown('#### Well watch the video below to get started ! ')
     st.video('https://youtu.be/_8JoRNPV2JY')
     
 
@@ -144,9 +145,11 @@ def homelayer2():
         funcs=["Mean","Median","Variance","Standard Deviation","Count","Max","Min"]
         agg_func=st.multiselect("Choose Aggregate functions",funcs)
         agg=analyze.perform_agregate(agg_func)
-        st.dataframe(agg)
+        st.write(agg)
         
+
 def predict(df3, opt):
+    st.title("Predict Your Customer's next move !")
     df3.drop(opt, axis='columns', inplace=True)
     for column in df3:
         if (df3[column].dtype == 'int64' or df3[column].dtype == 'float64'):
@@ -155,7 +158,8 @@ def predict(df3, opt):
             df3.drop(column, axis='columns', inplace=True)
     X=df3.drop(churn,axis='columns')
     y=df3[churn]
-    st.write(X)
+    st.write("Sample Data")
+    st.write(X.head(5))
 
     col1 = X.columns
     ans = []
@@ -166,7 +170,7 @@ def predict(df3, opt):
     X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size = 0.25, random_state = 42)
 
-    knn = KNeighborsClassifier(n_neighbors=10)
+    knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(X_train, y_train)
 
     # log = LogisticRegression()
@@ -179,12 +183,9 @@ def predict(df3, opt):
         y_pred = knn.predict(X_test)
         y_result=knn.predict([ans])
         if(y_result[0] == 0):
-            st.success("Custoplus predicts that the customer will STAY with an accuracy of"+str(metrics.accuracy_score(y_test, y_pred)*100)+"%")
+            st.success("Custoplus predicts that the customer will STAY with an accuracy of "+str(metrics.accuracy_score(y_test, y_pred)*100)+"%")
         else:
-            st.error("Custoplus predicts that the customer will Leave with an accuracy of"+str(metrics.accuracy_score(y_test, y_pred)*100)+"%")
-
-
-
+            st.error("Custoplus predicts that the customer will Leave with an accuracy of "+str(metrics.accuracy_score(y_test, y_pred)*100)+"%")
 
 
 if uploaded_file is not None:

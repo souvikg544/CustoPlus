@@ -26,8 +26,10 @@ class analyze():
             agg1.append(np.var)
 
         
-        
-        group_agg=self.grp.agg(agg1).reset_index()
+        try:
+            group_agg=self.grp.agg(agg1).reset_index()
+        except:
+            group_agg=""
         return group_agg
 
 
