@@ -15,14 +15,10 @@ st.set_page_config(
    page_title="Custoplus",
  page_icon="pie-chart.png")
 
-
-
 st.image(image)
-
 st.title('CustoPlus')
 st.subheader('We help make your customers stay😉')
 footer()
-
 uploaded_file = st.file_uploader("Upload Your Customer Data", type=['csv', 'xlsx'])
 
 
@@ -62,6 +58,7 @@ def plot(churn):
 
 
 def homelayer1():
+    
     df.drop(options, axis='columns', inplace=True)
     if st.checkbox('Show  sample data'):
         if (df.shape[0] > 20):
@@ -137,20 +134,23 @@ if uploaded_file is not None:
     elif extension.upper() == 'XLSX':
         df = pd.read_excel(uploaded_file)
     df = df.apply(lambda x: x.fillna(0) if x.dtype.kind in 'biufc' else x.fillna('Unknown'))
-    churn = st.selectbox('Which Column Shows customer exit status/ Churn Status', df.columns)
-    options = st.multiselect(
-        'Select Columns to drop(Columns like phone number,customer id do not affect customer churn)',
+    churn = st.selectbox('Which Column Shows customer exit status / Churn Status', df.columns)
+    options = st.multiselect('Select Columns to drop(Columns like phone number,customer id do not affect customer churn)',
         df.columns)
+    
+    st.write(":heavy_minus_sign:" * 20)
 
     st.sidebar.title("Custoplus")
-    page = st.sidebar.radio("See what we have for you", ('Home', 'Graphy', 'Predict'))
+    page = st.sidebar.radio("See what we have for you", ('Home','Analyze','Graphy','Predict'))
     st.sidebar.success("Make sure the Dataset has more of integer values and the churn or exit status column must have values like yes / no or 0 / 1 for smooth functioning of the web app")
     st.sidebar.info("Custoplus is designed to help analyze your customer database and understand why they are leaving or staying.Upload your database and choose which column represents churn.Our automated engine will modify the database and help you understand.First select the correlation and then go to the graph for visualization.Atlast give an unknown data and measure whether the person willl stay or not")
     
-    if (page == 'Home'):
+    if (page == 'Home'):        
          homelayer1()
+         
     df1 = df.replace({'Yes': 1, 'No': 0,'yes': 1, 'no': 0})
-    if (page == 'Home'):
+
+    if (page == 'Analyze'):
         homelayer2()
 
     if (page == 'Graphy'):
