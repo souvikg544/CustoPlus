@@ -7,6 +7,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from footerframe import footer
+import seaborn as sns
 
 
 
@@ -36,8 +37,8 @@ def plot(churn):
         df2[churn].replace({'Yes': 1, 'No': 0}, inplace=True)
 
     if(len(list_num) != 0):
-        st.subheader('Histograms for your number data values')
-        plt_col = st.selectbox('Histograms', list_num)
+        st.subheader('Histograms')
+        plt_col = st.selectbox('Integer Columns', list_num)
         fig, ax = plt.subplots()
         ax.hist([df2[df2[churn] == 0][plt_col], df2[df2[churn] == 1][plt_col]], color=['lightgreen', 'red'],
                 label=['Customers who stay', 'Customers who leave'])
@@ -47,28 +48,52 @@ def plot(churn):
         st.pyplot(fig)
 
     if(len(list_str) != 0):
-        st.subheader('Pie chart for the Text  Columns')
-        plt_pie = st.selectbox('Lets Pie', list_str)
+        st.subheader('Pie chart')
+        plt_pie = st.selectbox('Text/String Columns', list_str)
         fig1, ax1 = plt.subplots()
-        ax1.pie(df2[df2[churn] == 1][plt_pie].value_counts().values,
-                labels=df2[df2[churn] == 1][plt_pie].value_counts().index)
+        fig1 = plt.figure(figsize=(8, 4))
+        palette_color = sns.color_palette('dark')
+        pie_value=df2[df2[churn] == 1][plt_pie].value_counts().values
+        pie_keys=df2[df2[churn] == 1][plt_pie].value_counts().index
+        explode = [0]*len(pie_value)
+        ind = list(pie_value).index(max(pie_value))
+        explode[ind]=0.1
+        
+        ax1.pie(pie_value,labels=pie_keys,colors=palette_color,explode=explode)
         ax1.set_title(plt_pie + ' Vs ' + churn)
         plt.legend()
         st.pyplot(fig1)
 
-
-def homelayer1():
+    if(len(list_str) != 0):
+        st.subheader('Count Plots')
+        plt_count = st.selectbox('Text Columns', list_str,key="123")
+        fig = plt.figure(figsize=(10, 4))
+        palette_features = ['#E68753', '#409996']
+        sns.countplot(x = plt_count,hue=churn, data = df2,palette=palette_features)
+        st.pyplot(fig)
     
+    if(len(list_num) != 0):
+        st.subheader('Box Plots')
+        plt_box = st.selectbox('Integer Columns', list_num)
+        fig = plt.figure(figsize=(10, 4))
+        palette_features = ['#E68753', '#409996']
+        sns.boxplot(x = churn, y =plt_box, data = df2, palette=palette_features)
+        st.pyplot(fig)
+
+
+def homelayer1():   
     df.drop(options, axis='columns', inplace=True)
     if st.checkbox('Show  sample data'):
         if (df.shape[0] > 20):
-            st.write(df.sample(10))
+            st.dataframe(df.sample(10))
         else:
-            st.write(df.sample())
+            st.dataframe(df.sample())
             st.error("Insufficient data")
 
 def homelayer2():
-    if (st.checkbox("Show Corelation")):
+    st.subheader("Exploratory Data Analysis")
+    #col1, col2 = st.columns(2)
+    if (st.checkbox("Corelation")):
         try:
             st.write(df1.corr(method='pearson')[churn])
         except:
