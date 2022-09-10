@@ -7,6 +7,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from footerframe import footer
+
+
+
 image = Image.open('homeimage.png')
 st.set_page_config(
    page_title="Custoplus",
@@ -17,7 +20,7 @@ st.set_page_config(
 st.image(image)
 
 st.title('CustoPlus')
-st.subheader('We help make your customers stay 😉')
+st.subheader('We help make your customers stay😉')
 footer()
 
 uploaded_file = st.file_uploader("Upload Your Customer Data", type=['csv', 'xlsx'])
@@ -134,7 +137,7 @@ if uploaded_file is not None:
     elif extension.upper() == 'XLSX':
         df = pd.read_excel(uploaded_file)
     df = df.apply(lambda x: x.fillna(0) if x.dtype.kind in 'biufc' else x.fillna('Unknown'))
-    churn = st.selectbox('Which Column Shows customer exit status', df.columns)
+    churn = st.selectbox('Which Column Shows customer exit status/ Churn Status', df.columns)
     options = st.multiselect(
         'Select Columns to drop(Columns like phone number,customer id do not affect customer churn)',
         df.columns)
