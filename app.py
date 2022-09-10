@@ -100,7 +100,7 @@ def homelayer1():
             st.error("Insufficient data")
     st.subheader("Don't understand Custoplus ?")
     st.markdown('#### Well watch the video below to get started ! ')
-    st.video('https://youtu.be/_8JoRNPV2JY')
+    st.video('https://youtu.be/TqWR0ppe_Cc')
     
 
 def homelayer2():
