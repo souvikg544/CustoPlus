@@ -7,6 +7,8 @@ Custoplus makes data analysis easy with its beautiful auto ml backend and smooth
 ## Usage 
 
 Head over to https://custoplus-official.herokuapp.com/ to use Custoplus.
+Problem understanding ?
+Head over to https://youtu.be/TqWR0ppe_Cc for a detailed explanation on the usage
 
 ## Problem Statement
 Startups are growing in India and abroad. With the founders hustling to increase their customer network , meaningful data analysis will help them underdstand their target customers and give them insights on customer retention. But then data analysis becomes a bit tough for non technical persons ... Hiring a data scientist is not always feasible. Whats the solution ?
